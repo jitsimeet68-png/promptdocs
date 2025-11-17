@@ -1,0 +1,53 @@
+version: "1.0"
+project:
+  name: promptdocs
+  environment: production
+
+registry:
+  image: registry.amvera.ru/promptdocs/catalog
+  tag: latest
+
+build:
+  context: ..
+  dockerfile: Dockerfile
+  target: runtime
+  args:
+    - name: MKDOCS_CONFIG
+      value: mkdocs.yml
+
+domains:
+  - host: prompts.example.com
+    port: 80
+
+services:
+  web:
+    source: ..
+    dockerfile: Dockerfile
+    autoDeploy: true
+    replicas: 1
+    ports:
+      - name: http
+        port: 80
+        public: true
+    healthcheck:
+      path: /
+      method: GET
+      interval: 30s
+      timeout: 5s
+      healthy_threshold: 2
+      unhealthy_threshold: 5
+    resources:
+      cpu: 0.25
+      memory: 256Mi
+    env:
+      - name: NGINX_PORT
+        value: "80"
+      - name: APP_ENV
+        value: production
+    labels:
+      service: promptdocs-web
+      tier: frontend
+    deployStrategy:
+      type: rolling
+      maxUnavailable: 0
+      maxSurge: 1

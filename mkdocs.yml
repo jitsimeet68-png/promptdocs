@@ -1,0 +1,40 @@
+site_name: "Корпоративный каталог промптов"
+site_url: "https://prompts.example.com"
+site_description: "Внутренний каталог промптов компании"
+site_author: "Internal AI Team"
+
+nav:
+  - Главная: index.md
+  - Как пользоваться: how-to-use.md
+  - О проекте: about.md
+  - Каталог промптов:
+      - Продажи:
+          - "Анализ конкурентов": prompts/sales/example-competitor-analysis.md
+
+theme:
+  name: material
+  language: ru
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - search.highlight
+    - toc.integrate
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+
+plugins:
+  - search
+  - macros
+  - awesome-pages
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+
+extra_javascript:
+  - js/prompt-variables.js
